@@ -138,7 +138,7 @@ function applySettings(){
 function selectPreset(url,name,status){localStorage.setItem('bw_icon',url);applySettings();document.querySelectorAll('[data-tab-icon]').forEach(btn=>btn.classList.toggle('selected',btn.dataset.tabIcon===url));if(status)status.textContent=`${name} icon selected.`;}
 function setupSettings(){
   const title=document.getElementById('tabTitle'),icon=document.getElementById('tabIcon'),save=document.getElementById('saveSettings'),reset=document.getElementById('resetSettings'),status=document.getElementById('settingsStatus'); if(!save)return;
-  title.value=localStorage.getItem('bw_title')||'BrainWorks';
+  title.value=localStorage.getItem('bw_title')||'JnoenGames';
   document.querySelectorAll('[data-tab-icon]').forEach(btn=>{btn.classList.toggle('selected',btn.dataset.tabIcon===localStorage.getItem('bw_icon'));btn.addEventListener('click',()=>selectPreset(btn.dataset.tabIcon,btn.dataset.tabName,status));});
   save.addEventListener('click',()=>{localStorage.setItem('bw_title',title.value.trim()||'BrainWorks');const file=icon&&icon.files&&icon.files[0];if(file){const r=new FileReader();r.onload=()=>{localStorage.setItem('bw_icon',r.result);applySettings();status.textContent='Saved.'};r.readAsDataURL(file);}else{applySettings();status.textContent='Saved.';}});
   if(reset)reset.addEventListener('click',()=>{localStorage.removeItem('bw_title');localStorage.removeItem('bw_icon');title.value='BrainWorks';if(icon)icon.value='';applySettings();document.querySelectorAll('[data-tab-icon]').forEach(btn=>btn.classList.remove('selected'));status.textContent='Reset.';});
