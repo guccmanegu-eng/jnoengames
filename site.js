@@ -68,12 +68,12 @@ function fallingBalls(){
   document.body.prepend(layer);
 }
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function gameUrl(file){return 'play/'+file.replace(/\.html?$/,'')+'.html'}
+function gameUrl(file){return base+'game.html?g='+file.replace(/\.html?$/,'')}
 function randomGame(){return games[Math.floor(Math.random()*games.length)]}
 function navigateGame(file){location.href=gameUrl(file)}
 function renderGames(list,target){
   if(!target)return;
-  const randomCard={name:'Random',random:true,img:base+'assets/brainworks-logo.png'};
+  const randomCard={name:'Random',random:true,img:base+'assets/jnoengamess-logo.png'};
   const shown=[randomCard,...list];
   target.innerHTML=shown.map((g,i)=>{
     const initials=g.name.split(/\s+/).map(x=>x[0]).join('').slice(0,3).toUpperCase();
@@ -131,17 +131,17 @@ function applySettings(){
   if(icon===legacyYT){icon='assets/youtube-favicon.svg';localStorage.setItem('bw_icon',icon);}
   if(title)document.title=title;
   const link=ensureFaviconLink();
-  let href=icon||'assets/brainworks-logo.png';
+  let href=icon||'assets/jnoengamess-logo.png';
   if(!/^(https?:|data:|blob:)/i.test(href)){href=base+href.replace(/^\.\//,'');}
   link.href=href; link.type=href.endsWith('.svg')?'image/svg+xml':'image/png';
 }
 function selectPreset(url,name,status){localStorage.setItem('bw_icon',url);applySettings();document.querySelectorAll('[data-tab-icon]').forEach(btn=>btn.classList.toggle('selected',btn.dataset.tabIcon===url));if(status)status.textContent=`${name} icon selected.`;}
 function setupSettings(){
   const title=document.getElementById('tabTitle'),icon=document.getElementById('tabIcon'),save=document.getElementById('saveSettings'),reset=document.getElementById('resetSettings'),status=document.getElementById('settingsStatus'); if(!save)return;
-  title.value=localStorage.getItem('bw_title')||'JnoenGames';
+  title.value=localStorage.getItem('bw_title')||'jnoengamess';
   document.querySelectorAll('[data-tab-icon]').forEach(btn=>{btn.classList.toggle('selected',btn.dataset.tabIcon===localStorage.getItem('bw_icon'));btn.addEventListener('click',()=>selectPreset(btn.dataset.tabIcon,btn.dataset.tabName,status));});
-  save.addEventListener('click',()=>{localStorage.setItem('bw_title',title.value.trim()||'BrainWorks');const file=icon&&icon.files&&icon.files[0];if(file){const r=new FileReader();r.onload=()=>{localStorage.setItem('bw_icon',r.result);applySettings();status.textContent='Saved.'};r.readAsDataURL(file);}else{applySettings();status.textContent='Saved.';}});
-  if(reset)reset.addEventListener('click',()=>{localStorage.removeItem('bw_title');localStorage.removeItem('bw_icon');title.value='BrainWorks';if(icon)icon.value='';applySettings();document.querySelectorAll('[data-tab-icon]').forEach(btn=>btn.classList.remove('selected'));status.textContent='Reset.';});
+  save.addEventListener('click',()=>{localStorage.setItem('bw_title',title.value.trim()||'jnoengamess');const file=icon&&icon.files&&icon.files[0];if(file){const r=new FileReader();r.onload=()=>{localStorage.setItem('bw_icon',r.result);applySettings();status.textContent='Saved.'};r.readAsDataURL(file);}else{applySettings();status.textContent='Saved.';}});
+  if(reset)reset.addEventListener('click',()=>{localStorage.removeItem('bw_title');localStorage.removeItem('bw_icon');title.value='jnoengamess';if(icon)icon.value='';applySettings();document.querySelectorAll('[data-tab-icon]').forEach(btn=>btn.classList.remove('selected'));status.textContent='Reset.';});
 }
 function setupBrowserNav(){
   let nav=document.querySelector('.browser-nav-wrap');
@@ -149,12 +149,12 @@ function setupBrowserNav(){
   const prefix=isPlay?'../':'';
   if(!nav){
     const current=location.pathname.endsWith('/settings.html')?'settings':location.pathname.endsWith('/classes.html')?'games':'home';
-    nav=document.createElement('div'); nav.className='browser-nav-wrap'; nav.innerHTML=`<div class="browser-nav"><div class="browser-window-dots" aria-hidden="true"><i></i><i></i><i></i></div><nav class="browser-tabs" aria-label="Site tabs"><a class="browser-tab ${current==='home'?'active':''}" data-nav-tab="home" href="${prefix}index.html"><span class="tab-favicon"><img src="${prefix}assets/brainworks-logo.png" alt=""></span><span>BrainWorks</span></a><a class="browser-tab ${current==='games'?'active':''}" data-nav-tab="games" href="${prefix}classes.html"><span class="tab-favicon"><span class="mini-play">▶</span></span><span>g@m3s</span></a><a class="browser-tab ${current==='settings'?'active':''}" data-nav-tab="settings" href="${prefix}settings.html"><span class="tab-favicon">⚙</span><span>Settings</span></a></nav><div class="browser-address"><span class="address-lock">⌁</span><span class="address-text">brainworks</span><span class="address-dot">•</span></div></div>`;
+    nav=document.createElement('div'); nav.className='browser-nav-wrap'; nav.innerHTML=`<div class="browser-nav"><div class="browser-window-dots" aria-hidden="true"><i></i><i></i><i></i></div><nav class="browser-tabs" aria-label="Site tabs"><a class="browser-tab ${current==='home'?'active':''}" data-nav-tab="home" href="${prefix}index.html"><span class="tab-favicon"><img src="${prefix}assets/jnoengamess-logo.png" alt=""></span><span>jnoengamess</span></a><a class="browser-tab ${current==='games'?'active':''}" data-nav-tab="games" href="${prefix}classes.html"><span class="tab-favicon"><span class="mini-play">▶</span></span><span>g@m3s</span></a><a class="browser-tab ${current==='settings'?'active':''}" data-nav-tab="settings" href="${prefix}settings.html"><span class="tab-favicon">⚙</span><span>Settings</span></a></nav><div class="browser-address"><span class="address-lock">⌁</span><span class="address-text">jnoengamess</span><span class="address-dot">•</span></div></div>`;
     document.body.prepend(nav);
   }
   let transition=document.querySelector('.tab-transition');
   if(!transition){
-    transition=document.createElement('div'); transition.className='tab-transition'; transition.innerHTML=`<div class="transition-orb"></div><img src="${prefix}assets/brainworks-logo.png" alt="BrainWorks"><div class="transition-name">BrainWorks</div>`; document.body.appendChild(transition);
+    transition=document.createElement('div'); transition.className='tab-transition'; transition.innerHTML=`<div class="transition-orb"></div><img src="${prefix}assets/jnoengamess-logo.png" alt="jnoengamess"><div class="transition-name">jnoengamess</div>`; document.body.appendChild(transition);
   }
   nav.querySelectorAll('.browser-tab').forEach(tab=>{
     if(tab.dataset.bound==='1')return; tab.dataset.bound='1';
