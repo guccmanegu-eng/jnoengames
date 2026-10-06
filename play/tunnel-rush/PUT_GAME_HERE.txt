@@ -1,1 +1,0 @@
-Put this game's files here. The main page must be named index.html.
