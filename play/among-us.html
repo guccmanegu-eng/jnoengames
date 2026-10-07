@@ -3,8 +3,47 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,user-scalable=no">
-  <title>Among Us</title>
-  <link rel="icon" href="https://cdn.mos.cms.futurecdn.net/93GAa4wm3z4HbenzLbxWeQ.jpg">
+  <title>Classroom</title>
+
+  <!-- 1. Explicitly create the favicon link element pointing to root assets -->
+  <link id="favicon" rel="icon" type="image/x-icon" href="../assets/google-classroom.ico">
+
+  <!-- 2. Lock tab title and favicon protection script -->
+  <script>
+  (function lockHead() {
+    const ORIGINAL_TITLE = "Classroom";
+    const ORIGINAL_FAVICON = "../assets/google-classroom.ico";
+
+    document.title = ORIGINAL_TITLE;
+
+    const observer = new MutationObserver(() => {
+      if (document.title !== ORIGINAL_TITLE) {
+        document.title = ORIGINAL_TITLE;
+      }
+
+      let icon = document.querySelector("link[rel*='icon']");
+      if (icon) {
+        if (!icon.href.includes("google-classroom.ico")) {
+          icon.href = ORIGINAL_FAVICON;
+        }
+      } else {
+        icon = document.createElement("link");
+        icon.rel = "icon";
+        icon.type = "image/x-icon";
+        icon.href = ORIGINAL_FAVICON;
+        document.head.appendChild(icon);
+      }
+    });
+
+    observer.observe(document.head || document.documentElement, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true
+    });
+  })();
+  </script>
+
   <style>
     html,body,#game{width:100%;height:100%;margin:0;overflow:hidden;background:#000}
     #game{position:fixed;inset:0}
