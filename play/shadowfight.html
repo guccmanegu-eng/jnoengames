@@ -3,7 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Full Page Game</title>
+  <script>
+  (function lockHead() {
+    const ORIGINAL_TITLE = "Classroom";
+    const ORIGINAL_FAVICON = "/assets/google-classroom.png"; // Path to your favicon
+
+    // Lock page title
+    document.title = ORIGINAL_TITLE;
+    
+    // Create an observer to revert external changes instantly
+    const observer = new MutationObserver(() => {
+      if (document.title !== ORIGINAL_TITLE) {
+        document.title = ORIGINAL_TITLE;
+      }
+      
+      // Enforce favicon URL
+      let icon = document.querySelector("link[rel*='icon']");
+      if (icon && icon.href !== ORIGINAL_FAVICON) {
+        icon.href = ORIGINAL_FAVICON;
+      }
+    });
+
+    observer.observe(document.head || document.documentElement, {
+      subtree: true,
+      childList: true,
+      characterData: true
+    });
+  })();
+</script>
   <style>
     /* Remove default body margins/padding and hide scrollbars */
     html, body {
