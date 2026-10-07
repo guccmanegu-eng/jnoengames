@@ -39,6 +39,12 @@ const games=[
  {name:'Tunnel Rush',file:'tunnel-rush.html',img:'https://play-lh.googleusercontent.com/FokWq1FwEEzo2fI7T4r0kY9pOU1Wjyq0HuCeMZ5GJlQ11cADDml-JE46R8jULudqIBZtP9eNuba4eo54sQBh=w526-h296-rw'},
  {name:'Getaway Shootout',file:'getaway-shootout.html',img:'https://imgs.crazygames.com/getaway-shootout_16x9/20241230044730/getaway-shootout_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop'},
  {name:'Celeste',file:'celeste.html',img:'https://img.itch.zone/aW1nLzEwMjQyNTgucG5n/original/kDcm5O.png'},
+ {name:'Pikuniku',file:'pikuniku.html',img:'https://store-images.s-microsoft.com/image/apps.7703.14041044108785223.82419c4d-359a-436a-b07d-12cf7137d8fc.2cb971f9-2b51-4824-b789-52e49f050b4d'},
+ {name:'Trees Hate You',file:'trees-hate-you.html',img:'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4171850/e91e9662ad67f01a965b1ea764629bd63cba7c32/capsule_616x353.jpg?t=1787891955'},
+ {name:'The Binding of Isaac: Wrath of the Lamb',file:'binding-of-isaac.html',img:'https://fnaffree.io/data/image/game/the-binding-of-isaac-wrath-of-the-lamb/the-binding-of-isaac-wrath-of-the-lamb.png'},
+ {name:'8 Ball Pool',file:'8-ball-pool.html',img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoHWRRIwQP2Rsa9A0S2rk946Qc4krjt0ul5LaZ3poYyXDpJcH-eRxBLvk&s=10'},
+ {name:'60 Seconds',file:'60-seconds.html',img:'https://upload.wikimedia.org/wikipedia/commons/6/6b/60_Seconds%21.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original'},
+ {name:'Trombone Champ',file:'trombone-champ.html',img:'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/2x1_NSwitchDS_TromboneChamp.jpg'},
 ];
 window.BW_GAMES=games;
 
@@ -68,12 +74,12 @@ function fallingBalls(){
   document.body.prepend(layer);
 }
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function gameUrl(file){return base+'game.html?g='+file.replace(/\.html?$/,'')}
+function gameUrl(file){return 'play/'+file.replace(/\.html?$/,'')+'.html'}
 function randomGame(){return games[Math.floor(Math.random()*games.length)]}
 function navigateGame(file){location.href=gameUrl(file)}
 function renderGames(list,target){
   if(!target)return;
-  const randomCard={name:'Random',random:true,img:base+'assets/jnoengamess-logo.png'};
+  const randomCard={name:'Random',random:true,img:base+'assets/brainworks-logo.png'};
   const shown=[randomCard,...list];
   target.innerHTML=shown.map((g,i)=>{
     const initials=g.name.split(/\s+/).map(x=>x[0]).join('').slice(0,3).toUpperCase();
@@ -131,17 +137,17 @@ function applySettings(){
   if(icon===legacyYT){icon='assets/youtube-favicon.svg';localStorage.setItem('bw_icon',icon);}
   if(title)document.title=title;
   const link=ensureFaviconLink();
-  let href=icon||'assets/jnoengamess-logo.png';
+  let href=icon||'assets/brainworks-logo.png';
   if(!/^(https?:|data:|blob:)/i.test(href)){href=base+href.replace(/^\.\//,'');}
   link.href=href; link.type=href.endsWith('.svg')?'image/svg+xml':'image/png';
 }
 function selectPreset(url,name,status){localStorage.setItem('bw_icon',url);applySettings();document.querySelectorAll('[data-tab-icon]').forEach(btn=>btn.classList.toggle('selected',btn.dataset.tabIcon===url));if(status)status.textContent=`${name} icon selected.`;}
 function setupSettings(){
   const title=document.getElementById('tabTitle'),icon=document.getElementById('tabIcon'),save=document.getElementById('saveSettings'),reset=document.getElementById('resetSettings'),status=document.getElementById('settingsStatus'); if(!save)return;
-  title.value=localStorage.getItem('bw_title')||'jnoengamess';
+  title.value=localStorage.getItem('bw_title')||'BrainWorks';
   document.querySelectorAll('[data-tab-icon]').forEach(btn=>{btn.classList.toggle('selected',btn.dataset.tabIcon===localStorage.getItem('bw_icon'));btn.addEventListener('click',()=>selectPreset(btn.dataset.tabIcon,btn.dataset.tabName,status));});
-  save.addEventListener('click',()=>{localStorage.setItem('bw_title',title.value.trim()||'jnoengamess');const file=icon&&icon.files&&icon.files[0];if(file){const r=new FileReader();r.onload=()=>{localStorage.setItem('bw_icon',r.result);applySettings();status.textContent='Saved.'};r.readAsDataURL(file);}else{applySettings();status.textContent='Saved.';}});
-  if(reset)reset.addEventListener('click',()=>{localStorage.removeItem('bw_title');localStorage.removeItem('bw_icon');title.value='jnoengamess';if(icon)icon.value='';applySettings();document.querySelectorAll('[data-tab-icon]').forEach(btn=>btn.classList.remove('selected'));status.textContent='Reset.';});
+  save.addEventListener('click',()=>{localStorage.setItem('bw_title',title.value.trim()||'BrainWorks');const file=icon&&icon.files&&icon.files[0];if(file){const r=new FileReader();r.onload=()=>{localStorage.setItem('bw_icon',r.result);applySettings();status.textContent='Saved.'};r.readAsDataURL(file);}else{applySettings();status.textContent='Saved.';}});
+  if(reset)reset.addEventListener('click',()=>{localStorage.removeItem('bw_title');localStorage.removeItem('bw_icon');title.value='BrainWorks';if(icon)icon.value='';applySettings();document.querySelectorAll('[data-tab-icon]').forEach(btn=>btn.classList.remove('selected'));status.textContent='Reset.';});
 }
 function setupBrowserNav(){
   let nav=document.querySelector('.browser-nav-wrap');
@@ -149,12 +155,12 @@ function setupBrowserNav(){
   const prefix=isPlay?'../':'';
   if(!nav){
     const current=location.pathname.endsWith('/settings.html')?'settings':location.pathname.endsWith('/classes.html')?'games':'home';
-    nav=document.createElement('div'); nav.className='browser-nav-wrap'; nav.innerHTML=`<div class="browser-nav"><div class="browser-window-dots" aria-hidden="true"><i></i><i></i><i></i></div><nav class="browser-tabs" aria-label="Site tabs"><a class="browser-tab ${current==='home'?'active':''}" data-nav-tab="home" href="${prefix}index.html"><span class="tab-favicon"><img src="${prefix}assets/jnoengamess-logo.png" alt=""></span><span>jnoengamess</span></a><a class="browser-tab ${current==='games'?'active':''}" data-nav-tab="games" href="${prefix}classes.html"><span class="tab-favicon"><span class="mini-play">▶</span></span><span>g@m3s</span></a><a class="browser-tab ${current==='settings'?'active':''}" data-nav-tab="settings" href="${prefix}settings.html"><span class="tab-favicon">⚙</span><span>Settings</span></a></nav><div class="browser-address"><span class="address-lock">⌁</span><span class="address-text">jnoengamess</span><span class="address-dot">•</span></div></div>`;
+    nav=document.createElement('div'); nav.className='browser-nav-wrap'; nav.innerHTML=`<div class="browser-nav"><div class="browser-window-dots" aria-hidden="true"><i></i><i></i><i></i></div><nav class="browser-tabs" aria-label="Site tabs"><a class="browser-tab ${current==='home'?'active':''}" data-nav-tab="home" href="${prefix}index.html"><span class="tab-favicon"><img src="${prefix}assets/brainworks-logo.png" alt=""></span><span>BrainWorks</span></a><a class="browser-tab ${current==='games'?'active':''}" data-nav-tab="games" href="${prefix}classes.html"><span class="tab-favicon"><span class="mini-play">▶</span></span><span>g@m3s</span></a><a class="browser-tab ${current==='settings'?'active':''}" data-nav-tab="settings" href="${prefix}settings.html"><span class="tab-favicon">⚙</span><span>Settings</span></a></nav><div class="browser-address"><span class="address-lock">⌁</span><span class="address-text">brainworks</span><span class="address-dot">•</span></div></div>`;
     document.body.prepend(nav);
   }
   let transition=document.querySelector('.tab-transition');
   if(!transition){
-    transition=document.createElement('div'); transition.className='tab-transition'; transition.innerHTML=`<div class="transition-orb"></div><img src="${prefix}assets/jnoengamess-logo.png" alt="jnoengamess"><div class="transition-name">jnoengamess</div>`; document.body.appendChild(transition);
+    transition=document.createElement('div'); transition.className='tab-transition'; transition.innerHTML=`<div class="transition-orb"></div><img src="${prefix}assets/brainworks-logo.png" alt="BrainWorks"><div class="transition-name">BrainWorks</div>`; document.body.appendChild(transition);
   }
   nav.querySelectorAll('.browser-tab').forEach(tab=>{
     if(tab.dataset.bound==='1')return; tab.dataset.bound='1';
