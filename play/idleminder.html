@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classroom</title>
+
+  <!-- 1. Explicitly create the favicon link element -->
+  <link id="favicon" rel="icon" type="image/x-icon" href="../assets/google-classroom.ico">
+
+  <script>
+  (function lockHead() {
+    const ORIGINAL_TITLE = "Classroom";
+    
+    // 2. Use '../assets/' to step out of the 'play' folder back to the root assets
+    const ORIGINAL_FAVICON = "../assets/google-classroom.ico";
+
+    document.title = ORIGINAL_TITLE;
+
+    const observer = new MutationObserver(() => {
+      if (document.title !== ORIGINAL_TITLE) {
+        document.title = ORIGINAL_TITLE;
+      }
+
+      let icon = document.querySelector("link[rel*='icon']");
+      if (icon) {
+        // Resolve relative paths using full href string matching
+        if (!icon.href.includes("google-classroom.ico")) {
+          icon.href = ORIGINAL_FAVICON;
+        }
+      } else {
+        // Re-create the tag if the iframe completely deletes it
+        icon = document.createElement("link");
+        icon.rel = "icon";
+        icon.href = ORIGINAL_FAVICON;
+        document.head.appendChild(icon);
+      }
+    });
+
+    observer.observe(document.head || document.documentElement, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true
+    });
+  })();
+  </script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+    }
+
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<iframe
+    src="https://www.madkidgames.com/full/idle-miner-tycoon-gold-games"
+    sandbox="allow-scripts allow-forms"
+    allow="fullscreen"
+    allowfullscreen
+    scrolling="no"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+
+</body>
+</html>
