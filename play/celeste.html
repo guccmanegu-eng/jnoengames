@@ -1,28 +1,80 @@
-<!doctype html>
-
-
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <base href="https://cdn.jsdelivr.net/gh/web-ports/celeste@4f043a5ce121b74dc54ce56d74f213a2eeea6b4e/">
-    <title>CelesteWasm</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classroom</title>
 
-    <link rel="icon" type="image/x-icon" href="assets/app.ico" />
-    <link rel="prefetch" id="mountainsrc" href="assets/mountain.png">
-    <link rel="stylesheet" href="styles.css" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:wght@100..900&family=Material+Symbols+Rounded&display=swap"
-        rel="stylesheet" />
+  <!-- 1. Explicitly create the favicon link element -->
+  <link id="favicon" rel="icon" type="image/x-icon" href="../assets/google-classroom.ico">
 
-    <script src="cfg.js"></script>
-    <script src="data.js"></script>
-    <script type="module" src="bundle.js"></script>
+  <script>
+  (function lockHead() {
+    const ORIGINAL_TITLE = "Classroom";
+    
+    // 2. Use '../assets/' to step out of the 'play' folder back to the root assets
+    const ORIGINAL_FAVICON = "../assets/google-classroom.ico";
+
+    document.title = ORIGINAL_TITLE;
+
+    const observer = new MutationObserver(() => {
+      if (document.title !== ORIGINAL_TITLE) {
+        document.title = ORIGINAL_TITLE;
+      }
+
+      let icon = document.querySelector("link[rel*='icon']");
+      if (icon) {
+        // Resolve relative paths using full href string matching
+        if (!icon.href.includes("google-classroom.ico")) {
+          icon.href = ORIGINAL_FAVICON;
+        }
+      } else {
+        // Re-create the tag if the iframe completely deletes it
+        icon = document.createElement("link");
+        icon.rel = "icon";
+        icon.href = ORIGINAL_FAVICON;
+        document.head.appendChild(icon);
+      }
+    });
+
+    observer.observe(document.head || document.documentElement, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true
+    });
+  })();
+  </script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+    }
+
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      display: block;
+    }
+  </style>
 </head>
-
 <body>
-    <div id="loading-textt" style="color: black; font-size: 48px; font-family: cursive; text-align: center; margin-top: 20px;">LOADING DOT.NET...</div>
-</body>
 
+<iframe
+    src="https://cdn.jsdelivr.net/gh/web-ports/celeste@4f043a5ce121b74dc54ce56d74f213a2eeea6b4e/"
+    sandbox="allow-scripts allow-forms"
+    allow="fullscreen"
+    allowfullscreen
+    scrolling="no"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+
+</body>
 </html>
